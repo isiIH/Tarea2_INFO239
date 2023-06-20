@@ -72,6 +72,8 @@ void setup(){
   Serial.println("Esperando el mensaje...");
 }
 
+int c = 0;
+
 void loop(){
   uint8_t buf[VW_MAX_MESSAGE_LEN];
   uint8_t buflen = VW_MAX_MESSAGE_LEN;
@@ -82,13 +84,19 @@ void loop(){
     digitalWrite(13, true);
 
     if(destino[1] == 0b1100 || destino[1] == 0b0){ //Si es para nuestro grupo = 12 o 00
-      //uint8_t destinoActual = destino[1];
+
+      Serial.print("Origen = G");
+      Serial.print(int(origen[1]));
+      Serial.print(", ");
 
       uint8_t msg[8] = {buf[8],buf[9],buf[10],buf[11],buf[12],buf[13],buf[14],buf[15]};
       uint8_t crc = CRC_5(msg, sizeof(msg), buf[5]);
       
       if(crc != 0b0){
         Serial.println("Error en el envio de datos");
+        c++;
+        Serial.print("Número de errores = ");
+        Serial.println(c);
       } else {
         char mensaje[8] = "xd";
         uint8_t sec = buf[6];
