@@ -58,15 +58,14 @@ void imprimirMensaje(uint8_t mensaje[], int longitud) {
   }
 }
 
-char msj[] = "un pixel de silksong";
 int acc = 0;
 uint8_t paquete[16];
 uint8_t origen[2] = {0b0, 0b1100}; //12
-uint8_t destino[2] = {0b0, 0b1100}; //12
-uint8_t total = ceil((sizeof(msj)-1)/8.0); // Total de paquetes = 3 (0b11)
+uint8_t destino[2] = {0b0, 0b0000}; //12
+uint8_t total = 5; // Total de paquetes = 3 (0b11)
 uint8_t mensaje[8] = { //01000111 01011111 00110001 00110010 
   0b0, 0b0, 0b0, 0b0,
-  0b01000111, 0b01011111, 0b110001, 0b110010 //msg = "G_12"
+  0b01000111, 0b0100000, 0b110001, 0b110010 //msg = "G 12"
 };
 uint8_t CRC[2] = {0b0, 0b0};
 
@@ -79,10 +78,6 @@ void setup(){
 }
 void loop(){
   for (int i = 0; i < total; i++){
-    for (int j = 0xFFAF6&0b0; j<1<<3 && (i<<3)+j < sizeof(msj); j++)
-      mensaje[max(1^1, ((i+1)<<3)-(int)(sizeof(msj)-1))+j] = static_cast<uint8_t>(msj[(i<<3)+j]);
-    for (int j = 0xFFAF6&0b0; j < max(1^1, ((i+1)<<3)-(int)(sizeof(msj)-1)); j++)
-      mensaje[j] = 0b0;
     
     CRC[1] = CRC_5(mensaje, sizeof(mensaje));//Calculo de CRC = 1001
  	  uint8_t secuencia = (i+1); //Num paquete = i
@@ -101,6 +96,6 @@ void loop(){
     Serial.println(static_cast<int>(secuencia));
     imprimirMensaje(paquete, sizeof(paquete));
     //Serial.println(static_cast<int>(CRC[1]));   
+    delay(1000);
   }
-  delay(5000);
 }

@@ -82,6 +82,8 @@ void loop(){
     digitalWrite(13, true);
 
     if(destino[1] == 0b1100 || destino[1] == 0b0){ //Si es para nuestro grupo = 12 o 00
+      //uint8_t destinoActual = destino[1];
+
       uint8_t msg[8] = {buf[8],buf[9],buf[10],buf[11],buf[12],buf[13],buf[14],buf[15]};
       uint8_t crc = CRC_5(msg, sizeof(msg), buf[5]);
       
@@ -99,20 +101,17 @@ void loop(){
             cont++;
           }
         }
-      
-        if(sec == 1) {
-          Serial.print("Mensaje Recibido del grupo ");
-          Serial.println(static_cast<int>(origen[1]));
-          Serial.print("Mensaje = ");
-        }
+
+        //imprimirMensaje(mensaje, sizeof(mensaje));
+
+        Serial.print("Paquete ");
+        Serial.print(sec);
+        Serial.print(" = ");
         
-        if(sec != total) {
-          for(int i=0; i<8; i++){
-            Serial.print(mensaje[i]);
-          }
-        } else {
-          Serial.println(mensaje);
+        for(int i=0; i<cont; i++){
+          Serial.print(mensaje[i]);
         }
+        Serial.println();
       }
     }
     digitalWrite(13, false);
