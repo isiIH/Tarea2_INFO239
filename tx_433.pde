@@ -60,12 +60,12 @@ void imprimirMensaje(uint8_t mensaje[], int longitud) {
 
 int acc = 0;
 uint8_t paquete[16];
-uint8_t origen[2] = {0b0, 0b1100}; //12
-uint8_t destino[2] = {0b0, 0b0000}; //12
+uint8_t origen[2] = {0b0, 0b1010}; //10
+uint8_t destino[2] = {0b0, 0b1010}; //10
 uint8_t total = 5; // Total de paquetes = 3 (0b11)
 uint8_t mensaje[8] = { //01000111 01011111 00110001 00110010 
   0b0, 0b0, 0b0, 0b0,
-  0b01000111, 0b0100000, 0b110001, 0b110010 //msg = "G 12"
+  0b01000111, 0b0100000, 0b110001, 0b110000 //msg = "G 10"
 };
 uint8_t CRC[2] = {0b0, 0b0};
 

@@ -83,7 +83,7 @@ void loop(){
     uint8_t destino[2] = {buf[2], buf[3]};
     digitalWrite(13, true);
 
-    if(destino[1] == 0b1100 || destino[1] == 0b0){ //Si es para nuestro grupo = 12 o 00
+    if(destino[1] == 0b1010 || destino[1] == 0b0){ //Si es para nuestro grupo = 10 o 00
 
       Serial.print("Origen = G");
       Serial.print(int(origen[1]));
